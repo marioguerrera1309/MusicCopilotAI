@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "Project_Guerrera_Ficarra"
+version = "0.1.0"
+description = "Project of Agentic AI"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    { name = "Guerrera" },
+    { name = "Ficarra" },
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Topic :: Music :: Music Blog :: Agentic AI",
+]
+dependencies = [
+    "langgraph>=0.0.30",
+    "langchain>=0.1.0",
+    "langchain-openai>=0.1.0",
+    "langchain_community>=0.1.0",
+    "networkx>=3.0",
+    "chromadb>=0.4.0",
+    "pydantic>=2.0",
+    "tavily-python>=0.3.0",
+    "python-dotenv>=1.0.0",
+    "langchain-groq>=0.1.0",
+    "langchain-core>=0.1.0",
+    "IPython>=7.0.0",
+    "html2text>=2024.1.0",
+    "nest_asyncio>=1.5.0",
+    "matplotlib>=3.0.0",
+    "langgraph-cli>=0.1.0",
+    "langgraph-cli[inmem]>=0.1.0",
+    "langchain_google_genai>=2.0.0",
+    "langchain-chroma>=0.1.0",
+    "pypdf>=4.0.0",
+    "torch>=2.0.0",
+    "transformers>=4.0.0",
+    "datasets>=3.0.0",
+    "peft>=0.1.0",
+    "evaluate>=0.1.0",
+    "accelerate>=0.1.0",
+    "bitsandbytes>=0.1.0",
+    "scikit-learn>=1.0.0",
+    "neo4j>= 5.0.0",
+    "numpy>= 1.26.0"
+]
+[project.optional-dependencies]
+dev = [
+    "black>=23.0",
+    "flake8>=6.0",
+    "ipykernel>=6.0",
+    "langsmith>=0.1.0",
+]
