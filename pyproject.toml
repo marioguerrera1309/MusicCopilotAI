@@ -2,14 +2,14 @@
 requires = ["setuptools>=61.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 [project]
-name = "Project_Guerrera_Ficarra"
+name = "MusicCopilotAI"
 version = "0.1.0"
-description = "Project of Agentic AI"
+description = "Project of Agentic AI for Music Blog"
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [
-    { name = "Guerrera" },
-    { name = "Ficarra" },
+    { name = "Guerrera Mario Anthony" },
+    { name = "Ficarra Filippo" },
 ]
 classifiers = [
     "Programming Language :: Python :: 3",

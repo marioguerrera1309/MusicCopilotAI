@@ -1,0 +1,149 @@
+Metadata-Version: 2.4
+Name: MusicCopilotAI
+Version: 0.1.0
+Summary: Project of Agentic AI for Music Blog
+Author: Guerrera Mario Anthony, Ficarra Filippo
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Music :: Music Blog :: Agentic AI
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: langgraph>=0.0.30
+Requires-Dist: langchain>=0.1.0
+Requires-Dist: langchain-openai>=0.1.0
+Requires-Dist: langchain_community>=0.1.0
+Requires-Dist: networkx>=3.0
+Requires-Dist: chromadb>=0.4.0
+Requires-Dist: pydantic>=2.0
+Requires-Dist: tavily-python>=0.3.0
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: langchain-groq>=0.1.0
+Requires-Dist: langchain-core>=0.1.0
+Requires-Dist: IPython>=7.0.0
+Requires-Dist: html2text>=2024.1.0
+Requires-Dist: nest_asyncio>=1.5.0
+Requires-Dist: matplotlib>=3.0.0
+Requires-Dist: langgraph-cli>=0.1.0
+Requires-Dist: langgraph-cli[inmem]>=0.1.0
+Requires-Dist: langchain_google_genai>=2.0.0
+Requires-Dist: langchain-chroma>=0.1.0
+Requires-Dist: pypdf>=4.0.0
+Requires-Dist: torch>=2.0.0
+Requires-Dist: transformers>=4.0.0
+Requires-Dist: datasets>=3.0.0
+Requires-Dist: peft>=0.1.0
+Requires-Dist: evaluate>=0.1.0
+Requires-Dist: accelerate>=0.1.0
+Requires-Dist: bitsandbytes>=0.1.0
+Requires-Dist: scikit-learn>=1.0.0
+Requires-Dist: neo4j>=5.0.0
+Requires-Dist: numpy>=1.26.0
+Provides-Extra: dev
+Requires-Dist: black>=23.0; extra == "dev"
+Requires-Dist: flake8>=6.0; extra == "dev"
+Requires-Dist: ipykernel>=6.0; extra == "dev"
+Requires-Dist: langsmith>=0.1.0; extra == "dev"
+
+
+# Project Agentic AI
+
+Author: Guerrera Mario Anthony, Ficarra Filippo
+
+# 1. Installazione dipendenze
+```powershell
+py -m venv .venv
+```
+For Windows:
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+```powershell
+pip install -e .
+```
+# 2. Creazione del file .env
+```powershell
+GOOGLE_API_KEY_1="your_google_api_key_1"
+GOOGLE_API_KEY_2="your_google_api_key_2"
+TAVILY_API_KEY="your_tavily_key"
+LANGCHAIN_TRACING_V2=true
+LANGCHAIN_API_KEY="your_langchain_key"
+LANGCHAIN_PROJECT="Blog-Agent-K-RAG-2026"
+NEO4J_URI=bolt://localhost:7687
+NEO4J_USER=neo4j
+NEO4J_PASSWORD=musica2026! #Questa è la nostra. In fase di caricamento del database su Neo4j è possibile inserire la propria stabilita (vedere prossima sezione)
+```
+# 3. Avvio Neo4j
+
+Caso 1: Avvio su Neo4J Desktop
+Installare Neo4j Desktop. Andare su "Local  instances", cliccare su "Create instance" e, successivamente, su "Load from .dump, .backup or .tar (optional)". A quel punto, selezionare il file nella root principale del progetto, cioè "neo4j-2026-06-19T10-34-37.dump". Inserire a propria scelta l'istance name e la Password.
+ATTENZIONE: E' importante che la password inserita in fase di caricamento sia la stessa del campo NEO4J_PASSWORD del file .env
+Inoltre, bisogna stoppare tutte le altre istanze attive.
+Quando si vuole utilizzare un database diverso (con una password diversa), occorre usare cambiare la password nel file .env. Ovviamente bisogna avere in esecuzione quel determinato database in quel momento
+
+
+Caso 2: Avvio su Neo4j Browser
+Prerequisiti: Scaricare OpenJDK 21 dal seguente link:
+https://learn.microsoft.com/it-it/java/openjdk/download#openjdk-21
+(seleziona il pacchetto Windows x64 in formato .msi).
+Avviare il file scaricato e seguire l'installazione guidata. Durante l'installazione, assicurarsi di lasciare attive le opzioni che dicono "Set JAVA_HOME variable" e "Associate .jar files".
+
+A partire dal database presente su Neo4j desktop (vedere caso precedente), cliccare sui tre puntini, e selezionare l'opzione "open instance folder".
+A quel punto, copiare il percorso della cartella. Eseguire prompt dei comandi (scrivere cmd sulla barra di ricerca) da amministratore e digitare
+
+```powershell
+cd nome_path
+```
+esempio: cd "C:\Users\filip\.Neo4jDesktop2\Data\dbmss\dbms-30ab89e5-5d36-46e4-be1d-f866e7cdab93"
+
+A quel punto spostarsi nella cartella bin
+```powershell
+cd bin
+```
+Infine, scrivere
+```powershell
+neo4j start
+```
+
+A quel punto, digitare su browser:
+http://localhost:7474/
+
+ATTENZIONE: Inserire la password utilizzata nel file .env, nonchè la stessa del database selezionato del Neo4j.
+Quando si vuole utilizzare un database diverso, occorre usare cambiare la password nel file .env, e accedere al Neo4j browser con quella stessa password, per fare in modo che tutte le operazioni vengano effettuate su quel database.
+Ovviamente bisogna avere in esecuzione quel determinato database in quel momento. In questo caso di connessione al browser, bisogna aver scritto "neo4j start" sul percorso del database che si vuole utilizzare (vedere primi passi del caso 2 sull'ottenimento del path)
+
+
+# 4. Esecuzione del "run_publication.py"
+In background la funzione di caricamento di un post del json "publication_state.json" al database su Neo4j viene comunque eseguita alla fine del workflow del sistema.
+Tuttavia, si può eseguire lo script "run_publication.py" periodicamente in background, in modo che, se in tot giorni (nel nostro caso 1) il sistema non venisse eseguito, questo script caricherebbe il post più antico dal json al database.
+
+Per farlo:
+1. Selezionare e aprire Utilità di pianificazione dalla barra di ricerca
+2. Selezionare crea attività
+3. Inserire un nome a propria scelta del processo. Nella sezione "Attivazione" scegliere la frequenza di esecuzione gradita.
+
+NOTA IMPORTANTE: Noi abbiamo messo una frequenza giornaliera, e pertanto nella funzione a fine workflow e nel "run publication.py" la soglia è impostata ad 1. Infatti nell' Attivazione abbiamo settato una frequenza Giornaliera.
+
+4. Nella sezione "Azioni", nel campo "Programma o script" selezionare il path in cui risiede il progetto, aggiungendo "./venv/Scripts/python.exe". 
+
+ESEMPIO:    C:\Users\filip\Desktop\ProjectGuerreraFicarra\.venv\Scripts\python.exe
+
+Nel campo "aggiungi argomenti", inserire "run_publication.py"
+Nel campo  "Inizio", inserire il percorso della root principale del progetto
+
+ESEMPIO:   C:\Users\filip\Desktop\ProjectGuerreraFicarra
+
+IMPORTANTE: Tutti questi percorsi vanno inseriti senza virgolette
+
+5. Alla fine di tutto, cliccare su OK
+
+
+# 5. Esecuzione del sistema
+1. Esecuzione su langsmith. Digitare su terminale: 
+```powershell
+langgraph dev
+```
+
+2. Esecuzione tramite GUI con Tkinter. Digitare su terminale:
+```powershell
+py main.py
+```
